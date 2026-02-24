@@ -46,14 +46,15 @@
             </div>
         </div>
 
-        {{-- 10 Module Cards: Grid 1 (mobile) → 3–4 (desktop) --}}
+        {{-- 25 Module Cards: Responsive grid (1 → 5 columns) --}}
         <div>
             <h2 class="text-sm font-semibold uppercase tracking-[0.22em] text-white/80 mb-4">Modules</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 @php
                     $modules = [
                         [
                             'title' => 'User Management',
+                            'description' => 'Manage staff accounts, roles, and permissions.',
                             'icon' => 'user-group',
                             'links' => [
                                 ['label' => 'Roles', 'url' => route('user-management.roles')],
@@ -63,6 +64,7 @@
                         ],
                         [
                             'title' => 'Inventory',
+                            'description' => 'Track stock levels, items, and categories.',
                             'icon' => 'archive-box',
                             'links' => [
                                 ['label' => 'Current Stock', 'url' => route('inventory.current-stock')],
@@ -72,6 +74,7 @@
                         ],
                         [
                             'title' => 'Sales',
+                            'description' => 'Handle invoices, POS, and sales tracking.',
                             'icon' => 'shopping-cart',
                             'links' => [
                                 ['label' => 'Point of Sale', 'url' => route('sales.pos')],
@@ -81,6 +84,7 @@
                         ],
                         [
                             'title' => 'Procurement',
+                            'description' => 'Manage suppliers and purchase orders.',
                             'icon' => 'truck',
                             'links' => [
                                 ['label' => 'Purchase Orders', 'url' => route('procurement.purchase-orders')],
@@ -90,6 +94,7 @@
                         ],
                         [
                             'title' => 'Finance',
+                            'description' => 'Track expenses, profits, and bank accounts.',
                             'icon' => 'banknotes',
                             'links' => [
                                 ['label' => 'Cash Book', 'url' => route('finance.cash-book')],
@@ -99,6 +104,7 @@
                         ],
                         [
                             'title' => 'CRM',
+                            'description' => 'Manage customer data and communications.',
                             'icon' => 'chat-bubble-left-right',
                             'links' => [
                                 ['label' => 'Customers List', 'url' => route('crm.customers')],
@@ -108,6 +114,7 @@
                         ],
                         [
                             'title' => 'HRM',
+                            'description' => 'Track employee attendance, leaves, and payroll.',
                             'icon' => 'briefcase',
                             'links' => [
                                 ['label' => 'Employee Attendance', 'url' => route('hrm.attendance')],
@@ -117,6 +124,7 @@
                         ],
                         [
                             'title' => 'Production',
+                            'description' => 'Monitor manufacturing and work orders.',
                             'icon' => 'wrench-screwdriver',
                             'links' => [
                                 ['label' => 'Work Orders', 'url' => route('production.work-orders')],
@@ -126,6 +134,7 @@
                         ],
                         [
                             'title' => 'Reports',
+                            'description' => 'View business analytics and daily summaries.',
                             'icon' => 'chart-bar',
                             'links' => [
                                 ['label' => 'Daily Summary', 'url' => route('reports.daily')],
@@ -135,11 +144,162 @@
                         ],
                         [
                             'title' => 'Settings',
+                            'description' => 'Configure app settings and company profile.',
                             'icon' => 'cog-6-tooth',
                             'links' => [
                                 ['label' => 'Company Profile', 'url' => route('settings.company')],
                                 ['label' => 'Language', 'url' => route('settings.language')],
                                 ['label' => 'App Configuration', 'url' => route('settings.config')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Assets Management',
+                            'description' => 'Track company assets, vehicles, and machinery.',
+                            'icon' => 'building-office-2',
+                            'links' => [
+                                ['label' => 'Assets List', 'url' => route('assets.list')],
+                                ['label' => 'Vehicles', 'url' => route('assets.vehicles')],
+                                ['label' => 'Machinery', 'url' => route('assets.machinery')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Quality Control',
+                            'description' => 'Monitor product quality and standards.',
+                            'icon' => 'shield-check',
+                            'links' => [
+                                ['label' => 'Quality Checks', 'url' => route('quality.checks')],
+                                ['label' => 'Standards', 'url' => route('quality.standards')],
+                                ['label' => 'Inspections', 'url' => route('quality.inspections')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Project Management',
+                            'description' => 'Manage tasks, deadlines, and project progress.',
+                            'icon' => 'calendar-days',
+                            'links' => [
+                                ['label' => 'Projects', 'url' => route('projects.list')],
+                                ['label' => 'Tasks', 'url' => route('projects.tasks')],
+                                ['label' => 'Timeline', 'url' => route('projects.timeline')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Fleet & Transport',
+                            'description' => 'Manage vehicle tracking, fuel, and drivers.',
+                            'icon' => 'arrow-path',
+                            'links' => [
+                                ['label' => 'Vehicles', 'url' => route('fleet.vehicles')],
+                                ['label' => 'Fuel Log', 'url' => route('fleet.fuel-log')],
+                                ['label' => 'Drivers', 'url' => route('fleet.drivers')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Maintenance',
+                            'description' => 'Schedule machinery service and repairs.',
+                            'icon' => 'clipboard-document-check',
+                            'links' => [
+                                ['label' => 'Schedule', 'url' => route('maintenance.schedule')],
+                                ['label' => 'Work Orders', 'url' => route('maintenance.work-orders')],
+                                ['label' => 'History', 'url' => route('maintenance.history')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Document Vault',
+                            'description' => 'Securely store contracts, licenses, and documents.',
+                            'icon' => 'folder-open',
+                            'links' => [
+                                ['label' => 'Documents', 'url' => route('documents.list')],
+                                ['label' => 'Contracts', 'url' => route('documents.contracts')],
+                                ['label' => 'Licenses', 'url' => route('documents.licenses')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Marketing',
+                            'description' => 'Manage SMS/Email campaigns and promotions.',
+                            'icon' => 'megaphone',
+                            'links' => [
+                                ['label' => 'Campaigns', 'url' => route('marketing.campaigns')],
+                                ['label' => 'Templates', 'url' => route('marketing.templates')],
+                                ['label' => 'Analytics', 'url' => route('marketing.analytics')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Audit Log',
+                            'description' => 'Track all user activities and system changes.',
+                            'icon' => 'clipboard-document-list',
+                            'links' => [
+                                ['label' => 'Activity Log', 'url' => route('audit.activity')],
+                                ['label' => 'Changes', 'url' => route('audit.changes')],
+                                ['label' => 'Export', 'url' => route('audit.export')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Payroll & Loans',
+                            'description' => 'Handle employee salaries, advances, and loans.',
+                            'icon' => 'credit-card',
+                            'links' => [
+                                ['label' => 'Payroll', 'url' => route('payroll.salaries')],
+                                ['label' => 'Advances', 'url' => route('payroll.advances')],
+                                ['label' => 'Loans', 'url' => route('payroll.loans')],
+                            ],
+                        ],
+                        [
+                            'title' => 'POS (Point of Sale)',
+                            'description' => 'Fast-track billing for retail counters.',
+                            'icon' => 'computer-desktop',
+                            'links' => [
+                                ['label' => 'POS Screen', 'url' => route('pos.screen')],
+                                ['label' => 'Sessions', 'url' => route('pos.sessions')],
+                                ['label' => 'Daily Summary', 'url' => route('pos.daily-summary')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Helpdesk',
+                            'description' => 'Manage customer support tickets and resolutions.',
+                            'icon' => 'lifebuoy',
+                            'links' => [
+                                ['label' => 'Tickets', 'url' => route('helpdesk.tickets')],
+                                ['label' => 'Knowledge Base', 'url' => route('helpdesk.knowledge-base')],
+                                ['label' => 'Reports', 'url' => route('helpdesk.reports')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Supply Chain',
+                            'description' => 'Track the journey from supplier to customer.',
+                            'icon' => 'globe-alt',
+                            'links' => [
+                                ['label' => 'Supply Map', 'url' => route('supply-chain.map')],
+                                ['label' => 'Suppliers', 'url' => route('supply-chain.suppliers')],
+                                ['label' => 'Orders', 'url' => route('supply-chain.orders')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Appearance & Themes',
+                            'description' => 'Change wallpapers, colors, and system UI.',
+                            'icon' => 'paint-brush',
+                            'links' => [
+                                ['label' => 'Themes', 'url' => route('appearance.themes')],
+                                ['label' => 'Wallpapers', 'url' => route('appearance.wallpapers')],
+                                ['label' => 'Colors', 'url' => route('appearance.colors')],
+                            ],
+                        ],
+                        [
+                            'title' => 'API & Sync Manager',
+                            'description' => 'Connect with WooCommerce, Amazon, and Alibaba.',
+                            'icon' => 'puzzle-piece',
+                            'links' => [
+                                ['label' => 'Integrations', 'url' => route('api.integrations')],
+                                ['label' => 'WooCommerce', 'url' => route('api.woocommerce')],
+                                ['label' => 'Amazon & Alibaba', 'url' => route('api.marketplaces')],
+                            ],
+                        ],
+                        [
+                            'title' => 'Notifications',
+                            'description' => 'Manage WhatsApp, Email, and System alerts.',
+                            'icon' => 'bell',
+                            'links' => [
+                                ['label' => 'WhatsApp', 'url' => route('notifications.whatsapp')],
+                                ['label' => 'Email', 'url' => route('notifications.email')],
+                                ['label' => 'System Alerts', 'url' => route('notifications.system')],
                             ],
                         ],
                     ];
@@ -158,6 +318,9 @@
                         <span class="text-sm sm:text-base font-bold tracking-tight text-white group-hover:text-[#83b735] transition-colors">
                             {{ $module['title'] }}
                         </span>
+                        <p class="text-sm font-semibold tracking-tight text-white/80 leading-snug">
+                            {{ $module['description'] }}
+                        </p>
                         <span class="text-xs font-medium text-white/70 group-hover:text-[#83b735]/90 transition-colors">
                             Open sub-menu →
                         </span>

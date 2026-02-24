@@ -11,36 +11,35 @@
 
             <div class="space-y-4">
                 <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight leading-tight">
-                    Your Business,
+                    <span class="text-white">Agricart:</span>
                     <span class="block text-[#83b735] drop-shadow-[0_18px_45px_rgba(131,183,53,0.45)]">
-                        Reimagined.
+                        Your Digital Business Partner.
                     </span>
                 </h1>
 
                 <p class="max-w-xl text-sm sm:text-base md:text-lg text-white/80 leading-relaxed">
-                    Orchestrate Inventory, Sales, CRM, Finance, and HR in a single,
-                    glassmorphism-inspired control center. Designed for clarity on a
-                    100-inch boardroom display and precision on the smallest mobile screen.
+                    <span dir="rtl" class="block mb-2">آئیے ایگری کارڈ کے ساتھ اپنے بزنس کو بڑھائیں۔</span>
+                    Join us to simplify your business operations, manage your stocks digitally, and grow your reach with a partner you can trust. Let's build the future of trade together.
                 </p>
             </div>
 
             <div class="flex flex-wrap items-center gap-4">
                 <a
-                    href="#get-started"
+                    href="{{ route('register') }}"
                     class="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-sm md:text-base font-semibold tracking-wide text-black bg-[#83b735] hover:bg-[#74a62f] shadow-[0_20px_55px_rgba(131,183,53,0.5)] transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-[#a4d85f]"
                 >
-                    Get Started
+                    Join as a Partner
                     <svg class="ml-2 h-4 w-4 md:h-5 md:w-5" viewBox="0 0 24 24" fill="none">
                         <path d="M7 17L17 7M9 7H17V15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </a>
 
-                <button
-                    type="button"
+                <a
+                    href="#how-it-works"
                     class="inline-flex items-center justify-center px-5 py-3 rounded-full text-xs md:text-sm font-medium tracking-wide backdrop-blur-md bg-white/20 border border-white/30 hover:bg-white/30 transition-all"
                 >
-                    Live Dashboard Preview
-                </button>
+                    How it Works
+                </a>
             </div>
 
             <div class="grid grid-cols-2 sm:flex sm:flex-wrap gap-3 text-[10px] sm:text-xs text-white/70">
@@ -79,49 +78,37 @@
                     </div>
 
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-2">
+                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-1">
                             <p class="text-[11px] font-medium text-white/70 uppercase tracking-[0.18em]">
-                                Inventory
+                                Partner Network
                             </p>
-                            <p class="text-xl font-semibold">
-                                18,942
-                            </p>
-                            <p class="flex items-center text-[11px] text-emerald-300">
-                                <span class="mr-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20">
-                                    ↑
-                                </span>
-                                +12.4% vs last month
+                            <p class="text-lg font-semibold text-[#a4d85f]">
+                                500+ Businesses
                             </p>
                         </div>
-
-                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-2">
+                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-1">
                             <p class="text-[11px] font-medium text-white/70 uppercase tracking-[0.18em]">
-                                Sales
+                                Market Reach
                             </p>
-                            <p class="text-xl font-semibold">
-                                3.2M
-                            </p>
-                            <p class="flex items-center text-[11px] text-emerald-300">
-                                <span class="mr-1 inline-flex h-4 w-4 items-center justify-center rounded-full bg-emerald-500/20">
-                                    ↑
-                                </span>
-                                +8.9% this quarter
+                            <p class="text-lg font-semibold text-[#a4d85f]">
+                                Across Pakistan
                             </p>
                         </div>
-                    </div>
-
-                    <div class="grid grid-cols-3 gap-3 text-[11px]">
-                        <div class="rounded-xl backdrop-blur-md bg-white/20 border border-white/25 p-2.5">
-                            <p class="text-white/70 mb-1">Open Deals</p>
-                            <p class="text-sm font-semibold">124</p>
+                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-1">
+                            <p class="text-[11px] font-medium text-white/70 uppercase tracking-[0.18em]">
+                                Support
+                            </p>
+                            <p class="text-lg font-semibold text-[#a4d85f]">
+                                24/7 Dedicated
+                            </p>
                         </div>
-                        <div class="rounded-xl backdrop-blur-md bg-white/20 border border-white/25 p-2.5">
-                            <p class="text-white/70 mb-1">On-time Orders</p>
-                            <p class="text-sm font-semibold">96.3%</p>
-                        </div>
-                        <div class="rounded-xl backdrop-blur-md bg-white/20 border border-white/25 p-2.5">
-                            <p class="text-white/70 mb-1">SLA Breaches</p>
-                            <p class="text-sm font-semibold text-rose-200">3</p>
+                        <div class="rounded-2xl backdrop-blur-md bg-white/20 border border-white/25 p-3.5 space-y-1">
+                            <p class="text-[11px] font-medium text-white/70 uppercase tracking-[0.18em]">
+                                Business Growth
+                            </p>
+                            <p class="text-lg font-semibold text-[#a4d85f]">
+                                Guaranteed
+                            </p>
                         </div>
                     </div>
 
