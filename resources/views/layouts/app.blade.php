@@ -94,8 +94,8 @@
                 <div class="backdrop-blur-sm bg-white/15 border-b border-white/20">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="flex items-center justify-between h-16 md:h-20">
-                            {{-- Logo --}}
-                            <a href="{{ route('welcome') }}" class="flex items-center gap-3 flex-shrink-0 notranslate">
+                            {{-- Logo (always links to landing page) --}}
+                            <a href="{{ route('welcome') }}" class="flex items-center gap-3 flex-shrink-0 notranslate" title="Back to Home" aria-label="Agricart – Back to Home">
                                 @if(file_exists(public_path('images/logo.png.webp')))
                                     <img src="{{ asset('images/logo.png.webp') }}" alt="Agricart" class="h-10 w-auto object-contain" />
                                 @elseif(file_exists(public_path('images/logo.png')))
@@ -205,6 +205,15 @@
                     </div>
                 </div>
             </header>
+
+            {{-- Breadcrumbs (sub-pages only) --}}
+            @hasSection('breadcrumbs')
+                <div class="border-b border-white/10 bg-black/10">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+                        @yield('breadcrumbs')
+                    </div>
+                </div>
+            @endif
 
             {{-- Main Content --}}
             <main class="flex-1">

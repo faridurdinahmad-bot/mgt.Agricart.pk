@@ -26,6 +26,13 @@ class User extends Authenticatable
         'is_approved',
         'company_name',
         'department',
+        'whatsapp_number',
+        'city',
+        'business_category',
+        'designation',
+        'joining_date',
+        'cnic_front_path',
+        'cnic_back_path',
     ];
 
     /**
@@ -49,6 +56,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_approved' => 'boolean',
+            'joining_date' => 'date',
         ];
     }
 }

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
@@ -68,11 +69,26 @@ class AuthController extends Controller
 
         if ($type === 'vendor') {
             $rules['company_name'] = ['required', 'string', 'max:255'];
+            $rules['whatsapp_number'] = ['required', 'string', 'max:20'];
+            $rules['city'] = ['required', 'string', 'max:100'];
+            $rules['business_category'] = ['required', 'in:Retailer,Wholesaler,Manufacturer,Other'];
+            $rules['terms_accepted'] = ['required', 'accepted'];
         } else {
-            $rules['department'] = ['nullable', 'string', 'max:255'];
+            $rules['whatsapp_number'] = ['required', 'string', 'max:20'];
+            $rules['designation'] = ['required', 'string', 'max:100'];
+            $rules['joining_date'] = ['required', 'date'];
+            $rules['cnic_front'] = ['required', 'file', 'image', 'max:2048'];
+            $rules['cnic_back'] = ['required', 'file', 'image', 'max:2048'];
         }
 
         $validated = $request->validate($rules);
+
+        $cnicFrontPath = null;
+        $cnicBackPath = null;
+        if ($type === 'staff') {
+            $cnicFrontPath = $request->file('cnic_front')->store('cnic', 'public');
+            $cnicBackPath = $request->file('cnic_back')->store('cnic', 'public');
+        }
 
         $user = User::create([
             'name' => $validated['name'],
@@ -83,7 +99,22 @@ class AuthController extends Controller
             'is_approved' => false,
             'company_name' => $validated['company_name'] ?? null,
             'department' => $validated['department'] ?? null,
+            'whatsapp_number' => $validated['whatsapp_number'] ?? null,
+            'city' => $validated['city'] ?? null,
+            'business_category' => $validated['business_category'] ?? null,
+            'designation' => $validated['designation'] ?? null,
+            'joining_date' => $validated['joining_date'] ?? null,
+            'cnic_front_path' => $cnicFrontPath,
+            'cnic_back_path' => $cnicBackPath,
         ]);
+
+        if ($type === 'vendor') {
+            return redirect()->route('login')
+                ->with('status', __('Registration successful. Your account is pending approval.'))
+                ->with('registration_success_vendor', true)
+                ->with('business_id_placeholder', 'AC-' . $user->created_at->format('ymd') . '-XXXX')
+                ->with('registered_at', $user->created_at->format('F j, Y'));
+        }
 
         return redirect()->route('login')->with('status', __('Registration successful. Your account is pending approval.'));
     }

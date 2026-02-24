@@ -24,7 +24,7 @@
 
             <div class="flex flex-wrap items-center gap-4">
                 <a
-                    href="{{ route('register') }}"
+                    href="{{ route('register', ['type' => 'vendor']) }}"
                     class="inline-flex items-center justify-center px-7 py-3.5 rounded-full text-sm md:text-base font-semibold tracking-wide text-black bg-[#83b735] hover:bg-[#74a62f] shadow-[0_20px_55px_rgba(131,183,53,0.5)] transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent focus-visible:ring-[#a4d85f]"
                 >
                     Join the Network
