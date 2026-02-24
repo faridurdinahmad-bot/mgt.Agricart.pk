@@ -79,9 +79,12 @@
                         </button>
                     </div>
                 </div>
-                <div class="flex items-center">
-                    <input type="checkbox" name="remember" id="remember" class="rounded border-white/30 bg-white/10 text-[#83b735] focus:ring-[#83b735]/80">
-                    <label for="remember" class="ml-2 text-sm font-medium text-white/80">Remember me</label>
+                <div class="flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" name="remember" id="remember" class="rounded border-white/30 bg-white/10 text-[#83b735] focus:ring-[#83b735]/80">
+                        <label for="remember" class="ml-2 text-sm font-medium text-white/80">Remember me</label>
+                    </div>
+                    <a href="{{ route('password.request') }}" class="text-sm font-medium text-[#83b735] hover:text-[#a4d85f] transition-colors">Forgot Password?</a>
                 </div>
                 <button
                     type="submit"

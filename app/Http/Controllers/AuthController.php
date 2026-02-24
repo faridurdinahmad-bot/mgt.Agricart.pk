@@ -138,4 +138,17 @@ class AuthController extends Controller
             'status' => $status,
         ]);
     }
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => ['required', 'email']]);
+
+        // Placeholder: in production you would send the actual reset link here
+        return back()->with('status', __('If an account exists for this email, you will receive a password reset link shortly.'));
+    }
 }
