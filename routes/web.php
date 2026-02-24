@@ -28,8 +28,13 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard')->middleware('auth');
 
+// Admin panel is now provided by Filament at /admin (see App\Providers\Filament\AdminPanelProvider)
+
 // Placeholder helper for module sub-pages
 $placeholder = fn (string $title, string $module) => view('modules.placeholder', compact('title', 'module'));
+
+// Admin: Approvals (priority module – placeholder until logic exists)
+Route::get('/admin/approvals', fn () => $placeholder('Pending Approvals', 'Admin Approvals'))->name('admin.approvals')->middleware('auth');
 
 // 1. User Management
 Route::get('/user-management/roles', fn () => $placeholder('Roles', 'User Management'))->name('user-management.roles');

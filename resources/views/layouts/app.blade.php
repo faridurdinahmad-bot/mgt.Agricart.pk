@@ -108,7 +108,21 @@
                                 </span>
                             </a>
 
-                            {{-- Actions: Language + Guest/Auth --}}
+                            {{-- Center: Search (authenticated only) --}}
+                            @auth
+                                <div class="flex-1 max-w-xl mx-4 hidden sm:block">
+                                    <label for="navbar-search" class="sr-only">Search</label>
+                                    <input
+                                        id="navbar-search"
+                                        type="search"
+                                        placeholder="Search modules, orders, customers…"
+                                        class="w-full px-4 py-2.5 rounded-xl text-sm font-medium text-white placeholder-white/50 backdrop-blur-md bg-white/15 border border-white/25 hover:border-white/35 focus:border-[#83b735]/60 focus:ring-2 focus:ring-[#83b735]/30 focus:outline-none transition-all"
+                                        aria-label="Search"
+                                    />
+                                </div>
+                            @endauth
+
+                            {{-- Right: Language + Profile + Logout --}}
                             <div class="flex items-center gap-2 sm:gap-3">
                                 {{-- Google Translate: Glassmorphism dropdown (notranslate = labels stay in English) --}}
                                 <div class="relative notranslate" x-data="{ open: false }" @click.outside="open = false">
@@ -120,7 +134,6 @@
                                         aria-expanded="false"
                                         aria-label="Select language"
                                     >
-                                        {{-- Globe icon (Heroicons outline) --}}
                                         <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white/90 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
                                         </svg>
@@ -190,6 +203,23 @@
                                     >
                                         Dashboard
                                     </a>
+                                    {{-- Admin Master Dashboard – when roles exist, show only for Admin/Owner (e.g. @can('accessAdmin')) --}}
+                                    <a
+                                        href="{{ url('/admin') }}"
+                                        class="inline-flex items-center justify-center px-4 py-2.5 rounded-full text-sm font-semibold tracking-wide text-[#83b735] bg-[#83b735]/15 border border-[#83b735]/40 hover:bg-[#83b735]/25 hover:text-white transition-all"
+                                    >
+                                        Admin
+                                    </a>
+                                    <a
+                                        href="{{ route('settings.company') }}"
+                                        class="inline-flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-semibold tracking-wide text-white/90 backdrop-blur-sm bg-white/15 border border-white/25 hover:bg-white/20 hover:text-[#83b735] transition-all"
+                                        aria-label="Profile"
+                                    >
+                                        <svg class="w-5 h-5 text-white/90" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                        <span class="hidden sm:inline">Profile</span>
+                                    </a>
                                     <form method="POST" action="{{ route('logout') }}" class="inline">
                                         @csrf
                                         <button
@@ -217,7 +247,7 @@
 
             {{-- Main Content --}}
             <main class="flex-1">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 lg:py-20">
+                <div class="@yield('main_container_class', 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 lg:py-20')">
                     @yield('content')
                 </div>
             </main>

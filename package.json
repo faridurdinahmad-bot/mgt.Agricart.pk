@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "filament:theme": "npx tailwindcss@3 -i ./resources/css/filament/admin/theme.css -o ./public/css/filament/admin/theme.css -c ./resources/css/filament/admin/tailwind.config.js --minify"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.0.0",
