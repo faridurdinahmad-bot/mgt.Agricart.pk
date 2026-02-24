@@ -66,6 +66,17 @@
             pointer-events: none !important;
         }
         [x-cloak] { display: none !important; }
+
+        /* Fade-in on scroll for feature cards */
+        .fade-in-card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in-card.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
     </style>
 </head>
 <body class="h-full antialiased text-white">
@@ -80,7 +91,7 @@
         <div class="relative z-10 flex flex-col min-h-screen">
             {{-- Sticky Glass Header --}}
             <header class="sticky top-0 z-30">
-                <div class="backdrop-blur-md bg-white/20 border-b border-white/20">
+                <div class="backdrop-blur-sm bg-white/15 border-b border-white/20">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="flex items-center justify-between h-16 md:h-20">
                             {{-- Logo --}}
@@ -104,7 +115,7 @@
                                     <button
                                         type="button"
                                         @click="open = !open"
-                                        class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-xl backdrop-blur-md bg-white/15 border border-white/30 hover:bg-white/25 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                                        class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-xl backdrop-blur-sm bg-white/15 border border-white/25 hover:bg-white/20 hover:border-white/35 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
                                         aria-haspopup="listbox"
                                         aria-expanded="false"
                                         aria-label="Select language"
@@ -204,19 +215,46 @@
 
             {{-- Glass Footer --}}
             <footer class="mt-auto">
-                <div class="backdrop-blur-md bg-white/20 border-t border-white/20">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs md:text-sm text-white/80">
-                        <p class="text-center md:text-left">
-                            &copy; {{ now()->year }} {{ config('app.name', 'ERP System') }}. All rights reserved.
-                        </p>
-                        <div class="flex items-center space-x-4">
-                            <a href="#privacy" class="hover:text-[#83b735] transition-colors">
-                                Privacy Policy
-                            </a>
-                            <span class="hidden md:inline-block text-white/40">/</span>
-                            <a href="#terms" class="hover:text-[#83b735] transition-colors">
-                                Terms of Service
-                            </a>
+                <div class="backdrop-blur-sm bg-white/15 border-t border-white/20">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5 md:py-6 flex flex-col md:flex-row items-center md:items-center justify-between gap-4 text-xs md:text-sm text-white/80">
+                        <div class="text-center md:text-left space-y-1">
+                            <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/60">
+                                Agricart: Empowering Trade through Innovation.
+                            </p>
+                            <p class="text-xs text-white/50 max-w-md">
+                                Disclaimer: This site is translated for your convenience using machine translation. In case of any discrepancy or error, the original English version shall prevail. If you spot a mistake, please let us know.
+                            </p>
+                            <p>
+                                &copy; 2026 Agricart (Pvt) Ltd. All Rights Reserved.
+                            </p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-end gap-3">
+                            <div class="flex items-center gap-4 flex-wrap justify-center">
+                                <a
+                                    href="{{ route('privacy') }}"
+                                    class="text-white/75 hover:text-[#83b735] transition-colors underline-offset-4 hover:underline"
+                                >
+                                    Privacy Policy
+                                </a>
+                                <span class="hidden sm:inline-block text-white/40">/</span>
+                                <a
+                                    href="{{ route('terms') }}"
+                                    class="text-white/75 hover:text-[#83b735] transition-colors underline-offset-4 hover:underline"
+                                >
+                                    Terms of Service
+                                </a>
+                            </div>
+                            <div class="flex items-center justify-center md:justify-end gap-3">
+                                <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/30 text-white/80 hover:bg-white/20 hover:text-[#83b735] transition-colors" aria-label="Facebook">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+                                </a>
+                                <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/30 text-white/80 hover:bg-white/20 hover:text-[#83b735] transition-colors" aria-label="LinkedIn">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                </a>
+                                <a href="#" class="inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/10 border border-white/30 text-white/80 hover:bg-white/20 hover:text-[#83b735] transition-colors" aria-label="WhatsApp">
+                                    <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

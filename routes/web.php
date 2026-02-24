@@ -7,6 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+Route::get('/privacy', fn () => view('legal.privacy'))->name('privacy');
+Route::get('/terms', fn () => view('legal.terms'))->name('terms');
+
 // Auth: guest only
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
