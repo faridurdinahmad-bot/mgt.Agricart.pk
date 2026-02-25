@@ -11,6 +11,26 @@
         .erp-dot { animation: erp-pulse 2.5s ease-in-out infinite; }
         @keyframes erp-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
         .erp-separator { animation: erp-glow 3s ease-in-out infinite; }
+        /* 3D scene and cards */
+        .erp-3d-scene { perspective: 1400px; transform-style: preserve-3d; }
+        .erp-card-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1400px) rotateX(1deg) rotateY(0deg) translateZ(0);
+            transition: transform 0.35s ease-out, box-shadow 0.35s ease-out;
+        }
+        .erp-card-3d:hover {
+            transform: perspective(1400px) rotateX(-3deg) rotateY(2deg) translateZ(14px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.2), 0 24px 56px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.08) inset, inset 0 1px 0 rgba(255,255,255,0.15);
+        }
+        .erp-drum-3d {
+            transform-style: preserve-3d;
+            transform: perspective(1400px) rotateX(0.5deg) rotateY(0deg) translateZ(0);
+            transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .erp-drum-3d:hover {
+            transform: perspective(1400px) rotateX(-2deg) rotateY(1deg) translateZ(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15), 0 18px 44px rgba(0,0,0,0.22), 0 0 0 1px rgba(255,255,255,0.06) inset, inset 0 1px 0 rgba(255,255,255,0.12);
+        }
     </style>
     <div class="space-y-5" x-data>
         {{-- 2026 ERP header strip --}}
@@ -73,12 +93,12 @@
             ];
         @endphp
 
-        {{-- 1. KPI cards: glass + tech HUD (corner brackets, grid, data strip) --}}
-        <section aria-label="Key performance indicators" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        {{-- 1. KPI cards: glass + tech HUD + 3D tilt & lift --}}
+        <section aria-label="Key performance indicators" class="erp-3d-scene grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 py-1">
             @foreach($cards as $card)
                 <div
-                    class="group relative rounded-2xl overflow-hidden transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-black/20"
-                    style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(165deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%); border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 8px 32px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.05) inset, inset 0 1px 0 rgba(255,255,255,0.12);"
+                    class="erp-card-3d group relative rounded-2xl overflow-hidden"
+                    style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(165deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%); border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 12px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.05) inset, inset 0 1px 0 rgba(255,255,255,0.12);"
                 >
                     {{-- Tech grid overlay (very subtle) --}}
                     <div class="absolute inset-0 opacity-[0.04] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px); background-size: 12px 12px;" aria-hidden="true"></div>
@@ -110,14 +130,14 @@
         {{-- Thin green separator (section divider, not over text) --}}
         <div class="erp-separator h-px w-full rounded-full" style="background: linear-gradient(90deg, transparent 0%, rgba(131,183,53,0.6) 20%, #83b735 50%, rgba(131,183,53,0.6) 80%, transparent 100%); box-shadow: 0 0 12px rgba(131,183,53,0.3);" aria-hidden="true"></div>
 
-        {{-- 2. Drums: glass + tech (corner brackets, channel bar, scan feel) --}}
-        <section aria-label="Module drums" class="relative">
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+        {{-- 2. Drums: glass + tech + 3D tilt & lift --}}
+        <section aria-label="Module drums" class="erp-3d-scene relative py-1">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                 @foreach($drumTitles as $i => $title)
                     <div
                         x-data="commandDrum({ items: {{ json_encode($drumItems[$i] ?? []) }}, links: {{ json_encode($drumLinks[$i] ?? []) }} })"
-                        class="flex flex-col rounded-2xl overflow-hidden transition-all duration-200 hover:shadow-lg hover:shadow-black/15 relative"
-                        style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.06) 100%); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 6px 24px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.04) inset, inset 0 1px 0 rgba(255,255,255,0.1);"
+                        class="erp-drum-3d flex flex-col rounded-2xl overflow-hidden relative"
+                        style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.06) 100%); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 10px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04) inset, inset 0 1px 0 rgba(255,255,255,0.1);"
                     >
                         {{-- Subtle tech grid --}}
                         <div class="absolute inset-0 opacity-[0.03] pointer-events-none rounded-2xl" style="background-image: linear-gradient(rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.6) 1px, transparent 1px); background-size: 8px 8px;" aria-hidden="true"></div>
