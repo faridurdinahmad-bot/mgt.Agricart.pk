@@ -24,60 +24,8 @@
         };
     </script>
 
-    <style>
-        body {
-            font-family: 'Inter', 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
-        /* Hide scrollbars but keep scrolling */
-        html,
-        body {
-            scrollbar-width: none;          /* Firefox */
-            -ms-overflow-style: none;       /* IE/Edge legacy */
-        }
-
-        html::-webkit-scrollbar,
-        body::-webkit-scrollbar {
-            width: 0;
-            height: 0;                      /* Chrome, Safari, Opera */
-        }
-
-        /* Hide default Google Translate banner/UI – keep header clean */
-        .goog-te-banner-frame,
-        .goog-te-balloon-frame,
-        .goog-tooltip,
-        .goog-tooltip:hover,
-        #goog-gt-tt,
-        .goog-te-gadget,
-        .skiptranslate {
-            display: none !important;
-            visibility: hidden !important;
-        }
-        body { top: 0 !important; }
-        html.translated body { top: 0 !important; }
-        /* Google Translate widget hidden; translation is driven by googtrans cookie */
-        #google_translate_element {
-            position: absolute !important;
-            left: -9999px !important;
-            width: 1px !important;
-            height: 1px !important;
-            overflow: hidden !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        [x-cloak] { display: none !important; }
-
-        /* Fade-in on scroll for feature cards */
-        .fade-in-card {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-        }
-        .fade-in-card.is-visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>
+    {{-- Glassmorphism styles --}}
+    <link rel="stylesheet" href="{{ asset('css/glassmorphism.css') }}">
 </head>
 <body class="h-full antialiased text-white">
     <div

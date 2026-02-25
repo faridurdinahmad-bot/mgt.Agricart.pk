@@ -64,6 +64,14 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return true; // TODO: restrict by role (e.g. admin/owner) when roles are enforced
+        return $this->isApproved() && in_array($this->role, ['staff', 'admin', 'owner']);
+    }
+
+    /**
+     * Determine whether the user's account has been approved.
+     */
+    public function isApproved(): bool
+    {
+        return $this->is_approved === true || $this->status === 'approved';
     }
 }
