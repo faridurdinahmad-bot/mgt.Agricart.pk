@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Http\Middleware\EnsureUserIsApproved;
 use App\Http\Middleware\RedirectToCustomLogin;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -59,7 +60,7 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
-            ->authMiddleware([RedirectToCustomLogin::class])
+            ->authMiddleware([RedirectToCustomLogin::class, EnsureUserIsApproved::class])
             ->renderHook(PanelsRenderHook::HEAD_START, fn () => view('filament.head'));
     }
 }
