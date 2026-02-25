@@ -50,3 +50,11 @@ html.translated body { top: 0 !important; }
     opacity: 1;
     transform: translateY(0);
 }
+
+/* Logo: remove white background so it blends with header/theme */
+.logo-no-bg img {
+    mix-blend-mode: multiply;
+}
+.logo-no-bg {
+    isolation: isolate;
+}

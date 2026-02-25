@@ -11,6 +11,9 @@
         .erp-dot { animation: erp-pulse 2.5s ease-in-out infinite; }
         @keyframes erp-glow { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
         .erp-separator { animation: erp-glow 3s ease-in-out infinite; }
+        .erp-fade-in { opacity: 0; transform: translateY(10px); animation: erp-fade-in 0.5s ease-out forwards; }
+        .erp-fade-in.delay-1 { animation-delay: 0.05s; } .erp-fade-in.delay-2 { animation-delay: 0.1s; } .erp-fade-in.delay-3 { animation-delay: 0.15s; } .erp-fade-in.delay-4 { animation-delay: 0.2s; } .erp-fade-in.delay-5 { animation-delay: 0.25s; } .erp-fade-in.delay-6 { animation-delay: 0.3s; } .erp-fade-in.delay-7 { animation-delay: 0.35s; } .erp-fade-in.delay-8 { animation-delay: 0.4s; }
+        @keyframes erp-fade-in { to { opacity: 1; transform: translateY(0); } }
         /* 3D scene and cards */
         .erp-3d-scene { perspective: 1400px; transform-style: preserve-3d; }
         .erp-card-3d {
@@ -33,14 +36,26 @@
         }
     </style>
     <div class="space-y-5" x-data>
-        {{-- 2026 ERP header strip --}}
-        <header class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-white/15">
+        {{-- 2026 ERP header strip: title, quick links, date/time --}}
+        <header class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/15">
             <div class="flex items-center gap-3">
                 <h1 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90">Command Center</h1>
                 <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider text-[#83b735] border border-[#83b735]/40 bg-[#83b735]/10">ERP 2026</span>
             </div>
-            <p class="text-[10px] text-white/50 font-medium uppercase tracking-widest">Live overview</p>
+            <div class="flex items-center gap-3 flex-wrap">
+                <p class="text-[10px] text-white/50 font-medium uppercase tracking-widest">Live overview</p>
+                <time id="dashboard-datetime" class="text-[11px] text-white/60 font-medium tabular-nums" datetime="{{ now()->toIso8601String() }}">{{ now()->format('d M Y · H:i') }}</time>
+            </div>
         </header>
+
+        {{-- Quick links (2–4 shortcuts) --}}
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[10px] text-white/50 uppercase tracking-wider mr-1">Quick:</span>
+            <a href="{{ route('pos.screen') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">POS</a>
+            <a href="{{ route('admin.approvals') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Approvals</a>
+            <a href="{{ route('inventory.current-stock') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Stock</a>
+            <a href="{{ route('sales.pos') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Sales</a>
+        </div>
 
         <script>
             document.addEventListener('alpine:init', () => {
@@ -48,12 +63,18 @@
                     items: config.items || [],
                     links: config.links || [],
                     activeIndex: 0,
+                    touchStartY: 0,
                     get prevIndex() { return (this.activeIndex - 1 + this.items.length) % this.items.length; },
                     get nextIndex() { return (this.activeIndex + 1) % this.items.length; },
                     onWheel(e) {
                         e.preventDefault();
                         if (e.deltaY > 0) this.activeIndex = (this.activeIndex + 1) % this.items.length;
                         else if (e.deltaY < 0) this.activeIndex = (this.activeIndex - 1 + this.items.length) % this.items.length;
+                    },
+                    onTouchStart(e) { this.touchStartY = e.touches[0].clientY; },
+                    onTouchEnd(e) {
+                        const dy = e.changedTouches[0].clientY - this.touchStartY;
+                        if (Math.abs(dy) > 30) this.activeIndex = dy > 0 ? (this.activeIndex - 1 + this.items.length) % this.items.length : (this.activeIndex + 1) % this.items.length;
                     },
                 }));
             });
@@ -93,11 +114,11 @@
             ];
         @endphp
 
-        {{-- 1. KPI cards: glass + tech HUD + 3D tilt & lift --}}
+        {{-- 1. KPI cards: glass + tech HUD + 3D tilt & lift + fade-in --}}
         <section aria-label="Key performance indicators" class="erp-3d-scene grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 py-1">
             @foreach($cards as $card)
                 <div
-                    class="erp-card-3d group relative rounded-2xl overflow-hidden"
+                    class="erp-card-3d erp-fade-in delay-{{ min($loop->iteration, 8) }} group relative rounded-2xl overflow-hidden"
                     style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(165deg, rgba(255,255,255,0.14) 0%, rgba(255,255,255,0.08) 100%); border: 1px solid rgba(255,255,255,0.22); box-shadow: 0 4px 16px rgba(0,0,0,0.15), 0 12px 40px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.05) inset, inset 0 1px 0 rgba(255,255,255,0.12);"
                 >
                     {{-- Tech grid overlay (very subtle) --}}
@@ -130,13 +151,13 @@
         {{-- Thin green separator (section divider, not over text) --}}
         <div class="erp-separator h-px w-full rounded-full" style="background: linear-gradient(90deg, transparent 0%, rgba(131,183,53,0.6) 20%, #83b735 50%, rgba(131,183,53,0.6) 80%, transparent 100%); box-shadow: 0 0 12px rgba(131,183,53,0.3);" aria-hidden="true"></div>
 
-        {{-- 2. Drums: glass + tech + 3D tilt & lift --}}
+        {{-- 2. Drums: glass + tech + 3D tilt & lift + fade-in --}}
         <section aria-label="Module drums" class="erp-3d-scene relative py-1">
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
                 @foreach($drumTitles as $i => $title)
                     <div
                         x-data="commandDrum({ items: {{ json_encode($drumItems[$i] ?? []) }}, links: {{ json_encode($drumLinks[$i] ?? []) }} })"
-                        class="erp-drum-3d flex flex-col rounded-2xl overflow-hidden relative"
+                        class="erp-drum-3d erp-fade-in delay-{{ min($i + 1, 8) }} flex flex-col rounded-2xl overflow-hidden relative"
                         style="backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.06) 100%); border: 1px solid rgba(255,255,255,0.2); box-shadow: 0 4px 16px rgba(0,0,0,0.12), 0 10px 32px rgba(0,0,0,0.18), 0 0 0 1px rgba(255,255,255,0.04) inset, inset 0 1px 0 rgba(255,255,255,0.1);"
                     >
                         {{-- Subtle tech grid --}}
@@ -150,8 +171,10 @@
                             <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-8 h-px bg-[#83b735]/50" aria-hidden="true"></div>
                         </div>
                         <div
-                            class="relative h-28 flex flex-col justify-center overflow-hidden cursor-default"
+                            class="relative h-28 flex flex-col justify-center overflow-hidden cursor-default touch-none"
                             @wheel.prevent="onWheel($event)"
+                            @touchstart="onTouchStart($event)"
+                            @touchend="onTouchEnd($event)"
                         >
                             <div class="absolute inset-0 top-0 h-1/3 bg-gradient-to-b from-black/40 to-transparent pointer-events-none z-10"></div>
                             <div class="absolute inset-0 bottom-0 h-1/3 bg-gradient-to-t from-black/40 to-transparent pointer-events-none z-10"></div>
@@ -175,10 +198,17 @@
             </div>
         </section>
 
-        <footer class="pt-1 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] text-white/45">
-            <p>Scroll over a drum to change selection · Click the highlighted item to open</p>
+        <footer class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] text-white/45">
+            <p>Scroll or swipe on a drum to change · Tap highlighted item to open</p>
             <span class="hidden sm:inline text-white/30">·</span>
             <p class="font-medium text-white/50">Agricart ERP · 2026</p>
         </footer>
+        <script>
+            (function () {
+                var el = document.getElementById('dashboard-datetime');
+                function update() { if (el) { var d = new Date(); el.textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + d.toTimeString().slice(0, 5); } }
+                if (el) { update(); setInterval(update, 60000); }
+            })();
+        </script>
     </div>
 @endsection
