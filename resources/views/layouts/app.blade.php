@@ -43,17 +43,15 @@
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div class="flex items-center justify-between h-16 md:h-20">
                             {{-- Logo (always links to landing page) --}}
-                            <a href="{{ route('welcome') }}" class="flex items-center gap-3 flex-shrink-0 notranslate" title="Back to Home" aria-label="Agricart – Back to Home">
+                            <a href="{{ route('welcome') }}" class="flex items-center gap-2 sm:gap-2.5 flex-shrink-0 notranslate" title="Agricart ERP – Home" aria-label="Agricart ERP – Home">
                                 @if(file_exists(public_path('images/logo.png.webp')))
-                                    <img src="{{ asset('images/logo.png.webp') }}" alt="Agricart" class="h-10 w-auto object-contain" />
+                                    <span class="logo-no-bg flex items-center justify-center h-10"><img src="{{ asset('images/logo.png.webp') }}" alt="Agricart" class="h-10 w-auto object-contain" /></span>
                                 @elseif(file_exists(public_path('images/logo.png')))
-                                    <img src="{{ asset('images/logo.png') }}" alt="Agricart" class="h-10 w-auto object-contain" />
+                                    <span class="logo-no-bg flex items-center justify-center h-10"><img src="{{ asset('images/logo.png') }}" alt="Agricart" class="h-10 w-auto object-contain" /></span>
                                 @else
                                     <div class="h-10 w-10 rounded-xl bg-white/20 border border-white/40 flex items-center justify-center text-lg font-semibold tracking-tight">ERP</div>
                                 @endif
-                                <span class="font-bold text-base md:text-lg tracking-tight text-white" style="font-family: 'Poppins', 'Inter', sans-serif;">
-                                    Agricart Management System <span class="text-white/90">(Agricart.pk)</span>
-                                </span>
+                                <span class="font-bold text-sm md:text-base tracking-tight text-white flex-shrink-0" style="font-family: 'Poppins', 'Inter', sans-serif;">Agricart ERP</span>
                             </a>
 
                             {{-- Center: Search (authenticated only) --}}
