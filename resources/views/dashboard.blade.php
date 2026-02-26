@@ -36,51 +36,13 @@
         }
     </style>
     <div class="space-y-5" x-data>
-        {{-- 2026 ERP header strip: title, quick links, date/time --}}
-        <header class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/15">
-            <div class="flex items-center gap-3">
-                <h1 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90">Command Center</h1>
-                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider text-[#83b735] border border-[#83b735]/40 bg-[#83b735]/10">ERP 2026</span>
-            </div>
-            <div class="flex items-center gap-3 flex-wrap">
-                <p class="text-[10px] text-white/50 font-medium uppercase tracking-widest">Live overview</p>
-                <time id="dashboard-datetime" class="text-[11px] text-white/60 font-medium tabular-nums" datetime="{{ now()->toIso8601String() }}">{{ now()->format('d M Y · H:i') }}</time>
-            </div>
-        </header>
-
-        {{-- Quick links (2–4 shortcuts) --}}
-        <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[10px] text-white/50 uppercase tracking-wider mr-1">Quick:</span>
-            <a href="{{ route('pos.screen') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">POS</a>
-            <a href="{{ route('admin.approvals') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Approvals</a>
-            <a href="{{ route('inventory.current-stock') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Stock</a>
-            <a href="{{ route('sales.pos') }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">Sales</a>
-        </div>
-
-        <script>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('commandDrum', (config) => ({
-                    items: config.items || [],
-                    links: config.links || [],
-                    activeIndex: 0,
-                    touchStartY: 0,
-                    get prevIndex() { return (this.activeIndex - 1 + this.items.length) % this.items.length; },
-                    get nextIndex() { return (this.activeIndex + 1) % this.items.length; },
-                    onWheel(e) {
-                        e.preventDefault();
-                        if (e.deltaY > 0) this.activeIndex = (this.activeIndex + 1) % this.items.length;
-                        else if (e.deltaY < 0) this.activeIndex = (this.activeIndex - 1 + this.items.length) % this.items.length;
-                    },
-                    onTouchStart(e) { this.touchStartY = e.touches[0].clientY; },
-                    onTouchEnd(e) {
-                        const dy = e.changedTouches[0].clientY - this.touchStartY;
-                        if (Math.abs(dy) > 30) this.activeIndex = dy > 0 ? (this.activeIndex - 1 + this.items.length) % this.items.length : (this.activeIndex + 1) % this.items.length;
-                    },
-                }));
-            });
-        </script>
-
         @php
+            $quickLinks = [
+                ['label' => 'POS', 'route' => 'pos.screen'],
+                ['label' => 'Approvals', 'route' => 'admin.approvals'],
+                ['label' => 'Stock', 'route' => 'inventory.current-stock'],
+                ['label' => 'Sales', 'route' => 'sales.pos'],
+            ];
             $cards = [
                 ['label' => 'Contacts',  'value' => '156',  'sub' => 'Users & roles',     'delta' => '+12%'],
                 ['label' => 'Inventory', 'value' => '48.2M', 'sub' => 'PKR stock value',  'delta' => '+1.4%'],
@@ -113,6 +75,48 @@
                 [route('admin.approvals'), route('user-management.staff'), route('helpdesk.tickets'), route('settings.config')],
             ];
         @endphp
+        {{-- 2026 ERP header strip: title, quick links, date/time --}}
+        <header class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/15">
+            <div class="flex items-center gap-3">
+                <h1 class="text-sm font-bold uppercase tracking-[0.2em] text-white/90">Command Center</h1>
+                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider text-[#83b735] border border-[#83b735]/40 bg-[#83b735]/10">ERP 2026</span>
+            </div>
+            <div class="flex items-center gap-3 flex-wrap">
+                <p class="text-[10px] text-white/50 font-medium uppercase tracking-widest">Live overview</p>
+                <time id="dashboard-datetime" class="text-[11px] text-white/60 font-medium tabular-nums" datetime="{{ now()->toIso8601String() }}">{{ now()->format('d M Y · H:i') }}</time>
+            </div>
+        </header>
+
+        {{-- Quick links --}}
+        <div class="flex flex-wrap items-center gap-2">
+            <span class="text-[10px] text-white/50 uppercase tracking-wider mr-1">Quick:</span>
+            @foreach($quickLinks as $q)
+                <a href="{{ route($q['route']) }}" class="px-2.5 py-1.5 rounded-lg text-[11px] font-semibold text-white/90 bg-white/10 border border-white/20 hover:bg-[#83b735]/20 hover:border-[#83b735]/40 transition-colors">{{ $q['label'] }}</a>
+            @endforeach
+        </div>
+
+        <script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('commandDrum', (config) => ({
+                    items: config.items || [],
+                    links: config.links || [],
+                    activeIndex: 0,
+                    touchStartY: 0,
+                    get prevIndex() { return (this.activeIndex - 1 + this.items.length) % this.items.length; },
+                    get nextIndex() { return (this.activeIndex + 1) % this.items.length; },
+                    onWheel(e) {
+                        e.preventDefault();
+                        if (e.deltaY > 0) this.activeIndex = (this.activeIndex + 1) % this.items.length;
+                        else if (e.deltaY < 0) this.activeIndex = (this.activeIndex - 1 + this.items.length) % this.items.length;
+                    },
+                    onTouchStart(e) { this.touchStartY = e.touches[0].clientY; },
+                    onTouchEnd(e) {
+                        const dy = e.changedTouches[0].clientY - this.touchStartY;
+                        if (Math.abs(dy) > 30) this.activeIndex = dy > 0 ? (this.activeIndex - 1 + this.items.length) % this.items.length : (this.activeIndex + 1) % this.items.length;
+                    },
+                }));
+            });
+        </script>
 
         {{-- 1. KPI cards: glass + tech HUD + 3D tilt & lift + fade-in --}}
         <section aria-label="Key performance indicators" class="erp-3d-scene grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 py-1">
@@ -206,8 +210,13 @@
         <script>
             (function () {
                 var el = document.getElementById('dashboard-datetime');
-                function update() { if (el) { var d = new Date(); el.textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' · ' + d.toTimeString().slice(0, 5); } }
-                if (el) { update(); setInterval(update, 60000); }
+                if (!el) return;
+                function update() {
+                    var d = new Date();
+                    el.textContent = d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) + ' \u00B7 ' + d.toTimeString().slice(0, 5);
+                }
+                update();
+                setInterval(update, 60000);
             })();
         </script>
     </div>

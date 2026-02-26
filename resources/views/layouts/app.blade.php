@@ -77,7 +77,7 @@
                                         @click="open = !open"
                                         class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-2 sm:px-3 sm:py-2.5 rounded-xl backdrop-blur-sm bg-white/15 border border-white/25 hover:bg-white/20 hover:border-white/35 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
                                         aria-haspopup="listbox"
-                                        aria-expanded="false"
+                                        :aria-expanded="open"
                                         aria-label="Select language"
                                     >
                                         <svg class="w-4 h-4 sm:w-5 sm:h-5 text-white/90 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
