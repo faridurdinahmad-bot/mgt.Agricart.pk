@@ -42,10 +42,55 @@ $registerModule = static function (string $prefix, string $moduleLabel, array $p
     }
 };
 
+// 3D Dashboard drum modules: whitelist (drum_slug => [module_slug => module_label])
+$drumModules = [
+    'commerce' => ['sales-pos' => 'Sales POS', 'inventory' => 'Inventory', 'suppliers' => 'Suppliers'],
+    'sync-hub' => ['woocommerce' => 'WooCommerce', 'daraz' => 'Daraz', 'alibaba' => 'Alibaba'],
+    'finance' => ['bank-accounts' => 'Bank Accounts', 'cash-book' => 'Cash Book', 'profit-loss' => 'Profit/Loss'],
+    'expenses' => ['utility-bills' => 'Utility Bills', 'shop-rent' => 'Shop Rent', 'staff-tea' => 'Staff Tea'],
+    'human-capital' => ['staff-payroll' => 'Staff Payroll', 'attendance' => 'Attendance', 'performance' => 'Performance'],
+    'relations' => ['customer-khata' => 'Customer Khata', 'leads' => 'Leads', 'marketing' => 'Marketing'],
+    'insights' => ['sales-reports' => 'Sales Reports', 'expense-analytics' => 'Expense Analytics', 'growth-charts' => 'Growth Charts'],
+    'platform' => ['system-settings' => 'System Settings', 'user-roles' => 'User Roles', 'security-logs' => 'Security Logs'],
+];
+$drumLabels = [
+    'commerce' => 'COMMERCE', 'sync-hub' => 'SYNC HUB', 'finance' => 'FINANCE', 'expenses' => 'EXPENSES',
+    'human-capital' => 'HUMAN CAPITAL', 'relations' => 'RELATIONS', 'insights' => 'INSIGHTS', 'platform' => 'PLATFORM',
+];
+
 // Protected routes: require authentication and approved status
-Route::middleware(['auth', 'approved'])->group(function () use (&$placeholder, $registerModule) {
+Route::middleware(['auth', 'approved'])->group(function () use (&$placeholder, $registerModule, $drumModules, $drumLabels) {
     // Dashboard
     Route::get('/dashboard', fn () => view('dashboard'))->name('dashboard');
+
+    // 3D Drum module placeholder: /modules/{drum}/{module} (e.g. /modules/commerce/sales-pos)
+    Route::get('/modules/{drum}/{module}', function (string $drum, string $module) use ($drumModules, $drumLabels) {
+        if (!isset($drumModules[$drum]) || !isset($drumModules[$drum][$module])) {
+            abort(404);
+        }
+        $view = 'modules.' . $drum . '.' . $module;
+        if (view()->exists($view)) {
+            return view($view, [
+                'drumLabel' => $drumLabels[$drum],
+                'moduleLabel' => $drumModules[$drum][$module],
+            ]);
+        }
+        return view('modules.drum-placeholder', [
+            'drumLabel' => $drumLabels[$drum],
+            'moduleLabel' => $drumModules[$drum][$module],
+        ]);
+    })->name('module.show');
+
+    // Product catalog master + sub-modules
+    Route::prefix('catalog')->name('catalog.')->group(function () {
+        Route::get('/', fn () => view('modules.commerce.inventory'))->name('master');
+        Route::get('/categories', fn () => view('modules.catalog.categories'))->name('categories');
+        Route::get('/brands', fn () => view('modules.catalog.brands'))->name('brands');
+        Route::get('/attributes', fn () => view('modules.catalog.attributes'))->name('attributes');
+        Route::get('/products', fn () => view('modules.catalog.products'))->name('products');
+        Route::get('/products/create', fn () => view('modules.catalog.product-wizard'))->name('products.create');
+        Route::get('/stock-alerts', fn () => view('modules.catalog.stock-alerts'))->name('stock-alerts');
+    });
 
     // Admin: Approvals (priority module – placeholder until logic exists)
     Route::get('/admin/approvals', fn () => $placeholder('Pending Approvals', 'Admin Approvals'))->name('admin.approvals');

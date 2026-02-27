@@ -53,27 +53,32 @@
                 ['label' => 'Settings', 'value' => '3',   'sub' => 'Integrations',      'delta' => 'OK'],
                 ['label' => 'Platform', 'value' => '12',   'sub' => 'Pending approvals', 'delta' => 'Critical'],
             ];
-            $drumTitles = ['CONTACTS', 'INVENTORY', 'COMMERCE', 'ACCOUNTS', 'HUMAN CAPITAL', 'OPERATIONS', 'INSIGHTS', 'PLATFORM'];
+            $drumTitles = ['COMMERCE', 'SYNC HUB', 'FINANCE', 'EXPENSES', 'HUMAN CAPITAL', 'RELATIONS', 'INSIGHTS', 'PLATFORM'];
             $drumItems = [
-                ['Users', 'Customers', 'Suppliers', 'Roles'],
-                ['Current Stock', 'Add Items', 'Categories', 'Stock'],
-                ['Sales', 'POS', 'Purchase Orders', 'Expenses'],
-                ['Cash Book', 'Ledger', 'Bank Accounts', 'Profit / Loss'],
-                ['HRM', 'Payroll', 'Attendance', 'Salaries'],
-                ['Production', 'Quality Control', 'Maintenance', 'Projects'],
-                ['Daily Reports', 'Audit Log', 'Analytics', 'Export'],
-                ['Approvals', 'Staff', 'Helpdesk', 'Config'],
+                ['Sales POS', 'Inventory', 'Suppliers'],
+                ['WooCommerce', 'Daraz', 'Alibaba'],
+                ['Bank Accounts', 'Cash Book', 'Profit/Loss'],
+                ['Utility Bills', 'Shop Rent', 'Staff Tea'],
+                ['Staff Payroll', 'Attendance', 'Performance'],
+                ['Customer Khata', 'Leads', 'Marketing'],
+                ['Sales Reports', 'Expense Analytics', 'Growth Charts'],
+                ['System Settings', 'User Roles', 'Security Logs'],
             ];
-            $drumLinks = [
-                [route('user-management.staff'), route('crm.customers'), route('procurement.suppliers'), route('user-management.roles')],
-                [route('inventory.current-stock'), route('inventory.add-item'), route('inventory.categories'), route('inventory.current-stock')],
-                [route('sales.pos'), route('pos.screen'), route('procurement.purchase-orders'), route('procurement.expenses')],
-                [route('finance.cash-book'), route('finance.cash-book'), route('finance.bank-accounts'), route('finance.profit-loss')],
-                [route('hrm.attendance'), route('payroll.salaries'), route('hrm.attendance'), route('hrm.salaries')],
-                [route('production.work-orders'), route('quality.checks'), route('maintenance.schedule'), route('projects.list')],
-                [route('reports.daily'), route('audit.activity'), route('reports.monthly'), route('reports.export')],
-                [route('admin.approvals'), route('user-management.staff'), route('helpdesk.tickets'), route('settings.config')],
+            $drumSlugs = ['commerce', 'sync-hub', 'finance', 'expenses', 'human-capital', 'relations', 'insights', 'platform'];
+            $moduleSlugs = [
+                ['sales-pos', 'inventory', 'suppliers'],
+                ['woocommerce', 'daraz', 'alibaba'],
+                ['bank-accounts', 'cash-book', 'profit-loss'],
+                ['utility-bills', 'shop-rent', 'staff-tea'],
+                ['staff-payroll', 'attendance', 'performance'],
+                ['customer-khata', 'leads', 'marketing'],
+                ['sales-reports', 'expense-analytics', 'growth-charts'],
+                ['system-settings', 'user-roles', 'security-logs'],
             ];
+            $drumLinks = [];
+            foreach ($drumSlugs as $i => $drum) {
+                $drumLinks[] = array_map(fn ($module) => route('module.show', ['drum' => $drum, 'module' => $module]), $moduleSlugs[$i]);
+            }
         @endphp
         {{-- 2026 ERP header strip: title, quick links, date/time --}}
         <header class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-white/15">
